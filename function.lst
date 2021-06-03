@@ -1,0 +1,27 @@
+     1                                  section .text
+     2                                     global  encode
+     3                                     global  decode
+     4                                  
+     5                                  encode:
+     6 00000000 55                      	push	rbp 		;init stack 
+     7 00000001 4889E5                   	mov	rbp,rsp
+     8 00000004 668B07                   	mov	ax,[rdi] 	;take(rdi) first  parameter in c file  into ax
+     9 00000007 56                      	push	rsi 		;take(rsi) second value in c file into stack
+    10 00000008 8A4DF8                  	mov	cl,[rbp - 8] 	;take value of rsi in to cl  
+    11 0000000B 66D3C8                  	ror	ax,cl 		;rotate  right with number of bit in cl
+    12 0000000E 6641894500              	mov	[r13],ax 	;take value of ax into r13
+    13 00000013 4C89E8                  	mov	rax,r13 	;take value of r13 into rax
+    14 00000016 C9                      	leave 			;free stack 
+    15 00000017 C3                      	ret
+    16                                  decode:
+    17 00000018 55                       	push    rbp             ;init stack 
+    18 00000019 4889E5                          mov     rbp,rsp
+    19 0000001C 56                              push    rsi             ;take(rsi) second value in c file into stack
+    20 0000001D 8A4DF8                          mov     cl,[rbp - 8]    ;take value of rsi in to cl  
+    21 00000020 668B07                          mov     ax,[rdi]        ;take(rdi) first  parameter in c file  into ax
+    22 00000023 66D3C0                          rol     ax,cl           ;rotate left  with number of bit in cl
+    23 00000026 6641894500                      mov     [r13],ax        ;take value of ax into r13
+    24 0000002B 4C89E8                          mov     rax,r13         ;take value of r13 into rax
+    25 0000002E C9                              leave                   ;free stack 
+    26 0000002F C3                              ret
+    27                                  	
